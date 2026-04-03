@@ -15,9 +15,11 @@ internal class PlayerViewModel(
     val selectedSong: StateFlow<Song?> = _selectedSong.asStateFlow()
     val isPlaying = audioPlayerManager.isPlaying
     val currentPosition = audioPlayerManager.currentPosition
+    private val _playlist = MutableStateFlow<List<Song>>(emptyList())
 
-    fun selectSong(song: Song) {
+    fun selectSong(song: Song, playlist: List<Song>?) {
         _selectedSong.value = song
+        _playlist.value = playlist ?: emptyList()
         song.previewUrl.let { url ->
             audioPlayerManager.playSong(url)
         }
@@ -40,6 +42,26 @@ internal class PlayerViewModel(
     fun clearSelection() {
         _selectedSong.value = null
         audioPlayerManager.pause()
+    }
+
+    fun skipNext() {
+        val currentList = _playlist.value
+        val currentIndex = currentList.indexOf(_selectedSong.value)
+
+        if (currentIndex != -1 && currentList.isNotEmpty()) {
+            val nextIndex = (currentIndex + 1) % currentList.size
+            selectSong(currentList[nextIndex], currentList)
+        }
+    }
+
+    fun skipPrevious() {
+        val currentList = _playlist.value
+        val currentIndex = currentList.indexOf(_selectedSong.value)
+
+        if (currentIndex != -1 && currentList.isNotEmpty()) {
+            val prevIndex = (currentIndex - 1 + currentList.size) % currentList.size
+            selectSong(currentList[prevIndex], currentList)
+        }
     }
 
     override fun onCleared() {

@@ -21,6 +21,7 @@ import com.sonichighways.feature.album.presentation.ui.AlbumContent
 import com.sonichighways.feature.home.presentation.ui.view.component.DragHandleOverlay
 import com.sonichighways.feature.home.presentation.ui.view.component.HomePlaceholder
 import com.sonichighways.feature.home.presentation.ui.view.search.SearchContent
+import com.sonichighways.feature.home.presentation.ui.viewmodel.HomeUiState
 import com.sonichighways.feature.home.presentation.ui.viewmodel.HomeViewModel
 import com.sonichighways.feature.player.presentation.ui.view.PlayerContent
 import com.sonichighways.feature.player.presentation.ui.viewmodel.PlayerViewModel
@@ -71,6 +72,8 @@ fun HomeAdaptiveScreen() {
                     targetState = selectedAlbum,
                     label = "LeftPanelNavigation"
                 ) { currentAlbum ->
+                    val currentPlaylist = (uiState as? HomeUiState.Success)?.songs ?: emptyList()
+
                     if (currentAlbum != null) {
                         AlbumContent(
                             albumName = currentAlbum.albumName,
@@ -78,14 +81,14 @@ fun HomeAdaptiveScreen() {
                             albumCoverUrl = currentAlbum.albumCoverUrl,
                             songs = currentAlbum.songs,
                             onBackClick = { homeViewModel.closeAlbum() },
-                            onSongClick = { song -> playerViewModel.selectSong(song) }
+                            onSongClick = { song -> playerViewModel.selectSong(song, currentPlaylist) }
                         )
                     } else {
                         SearchContent(
                             uiState = uiState,
                             onSearch = { homeViewModel.searchSongs(it) },
                             onSongClick = { song ->
-                                playerViewModel.selectSong(song)
+                                playerViewModel.selectSong(song, currentPlaylist)
                                 homeViewModel.onSongSelected(song)
                             },
                             onViewAlbumClick = { song -> homeViewModel.openAlbum(song) },
@@ -109,8 +112,8 @@ fun HomeAdaptiveScreen() {
                         currentPosition = currentPosition,
                         onPlayPauseClick = { playerViewModel.togglePlayPause() },
                         onSeek = { progress -> playerViewModel.seekTo(progress) },
-                        onNextClick = { /* TODO */ },
-                        onPreviousClick = { /* TODO */ }
+                        onNextClick = { playerViewModel.skipNext() },
+                        onPreviousClick = { playerViewModel.skipPrevious() }
                     )
                 } else {
                     HomePlaceholder(
