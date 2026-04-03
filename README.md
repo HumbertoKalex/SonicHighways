@@ -43,6 +43,21 @@ The presentation and domain layers are covered by robust unit tests:
 
 ---
 
+## ⚠️ Architecture & Trade-offs
+
+This project was developed within a limited time-box. As a result, certain architectural decisions were simplified compared to the exhaustive standards typically found in large-scale enterprise systems.
+
+While the application adheres to solid principles of **Clean Architecture** and **MVVM**, the following trade-offs were intentionally made:
+
+* **Modularity:** A simplified modular structure was used instead of a complex feature-based multi-module decomposition.
+* **Error Handling:** The implementation focuses on "happy paths" and essential error states, rather than covering every possible edge case or complex retry policy.
+* **Test Coverage:** Priority was given to unit testing critical business logic (ViewModels and Repositories), omitting more complex end-to-end (UI) or integration tests.
+* **Dependency Management:** A single-module DI setup was implemented for simplicity and speed of development.
+
+These choices were made to ensure a functional and demonstrative MVP (Minimum Viable Product) that showcases core competencies in Android development within the established deadline.
+
+---
+
 ## 🏁 How to Run the Project
 
 ### 1. Clone the Repository
