@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sonic Highways</string>
+    <string name="home_title_songs">Songs</string>
+    <string name="home_search_placeholder">Search your library</string>
+    <string name="home_empty_state_search">Search for your favorite songs</string>
+    <string name="home_menu_view_album">View album</string>
+    <string name="player_empty_state_selection">Select a music to start</string>
+    <string name="player_content_desc_album_art">Album Art</string>
+    <string name="player_content_desc_play">Play</string>
+    <string name="player_content_desc_pause">Pause</string>
+    <string name="player_content_desc_next">Next Track</string>
+    <string name="player_content_desc_prev">Previous Track</string>
+    <string name="home_menu_collapse_desc">Collapse list</string>
+    <string name="home_menu_expand_desc">Expand list</string>
+</resources>
